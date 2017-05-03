@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="show_partner_form" inherit_id="website_portal.details">
+        <xpath expr="//div/div/h1" position="replace">
+			<h1>ASTIC - Renovación del Comité Nacional de Transportes - 2017</h1>
+        </xpath>
+		<xpath expr="//div/div/form/div/div/div/div[1]" position="after">
+			<h2>Datos personales</h2>
+        </xpath>
+
+		<xpath expr="//div/div/form/div/div/div/div/input[@name='email']" position="replace">
+			<input type="text" name="email" class="form-control" t-att-value="email or partner.email"/>
+        </xpath>
+
+		<!-- calle por compania -->
+		<xpath expr="//div/div/form/div/div/div/div/label[@for='street']" position="replace">
+			<label class="control-label label-optional" for="company_name">Nombre empresa</label>
+        </xpath>
+		<xpath expr="//div/div/form/div/div/div/div/input[@name='street']" position="replace">
+			<input type="text" name="company_name" class="form-control" t-att-value="company_name"/>
+        </xpath>
+		
+		<!-- cambiar label para street2 -->
+		<xpath expr="//div/div/form/div/div/div/div/label[@for='street']" position="replace">
+			<label class="control-label" for="street2">Dirección 2</label>
+        </xpath>
+		<xpath expr="//div/div/form/div/div/div/div/label[@for='vat']" position="replace">
+			<label class="control-label label-optional" for="vat">NIF (poner ES ántes, ej.: ESA12345678 )</label>
+        </xpath>
+
+		<xpath expr="//div/div/form/div/div/div/div[5]" position="after">
+			<h2>Datos empresa</h2>
+        </xpath>
+
+		<!-- añadir street antes de street2 -->
+		<xpath expr="//div/div/form/div/div/div/div[8]" position="after">
+			<div t-attf-class="form-group #{error.get('company_email') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="company_email">Email (para las notificaciones del ministerio)</label>
+				<input type="text" name="company_email" class="form-control" t-att-value="company_email"/>
+			</div>
+			<div t-attf-class="form-group #{error.get('company_phone') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="company_phone">Teléfono</label>
+				<input type="text" name="company_phone" class="form-control" t-att-value="company_phone"/>
+			</div>
+            <div class="clearfix"/>
+			<div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="street">Dirección</label>
+				<input type="text" name="street" class="form-control" t-att-value="street or partner.street"/>
+			</div>
+            <div class="clearfix"/>
+        </xpath>
+		
+		<!-- ASTIC data-->
+		<xpath expr="//div/div/form/div/div/div/input[@type='hidden']" position="after">
+			<div class="clearfix"/>
+			<div t-attf-class="form-group #{error.get('x_strAuthorizationTransport') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="x_strAuthorizationTransport">Autorización de transporte</label>
+				<input type="text" name="x_strAuthorizationTransport" class="form-control" t-att-value="x_strAuthorizationTransport or partner.x_strAuthorizationTransport" />
+			</div>
+			<div t-attf-class="form-group #{error.get('x_nAuthorizationTransport') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="x_nAuthorizationTransport">Número de copias</label>
+				<input type="text" name="x_nAuthorizationTransport" class="form-control" t-att-value="x_nAuthorizationTransport or partner.x_nAuthorizationTransport" />
+			</div>
+			<div class="clearfix"/>
+			<div t-attf-class="form-group #{error.get('x_strLicenceEU') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="x_strLicenceEU">Licencia comunitaria</label>
+				<input type="text" name="x_strLicenceEU" class="form-control" t-att-value="x_strLicenceEU or partner.x_strLicenceEU" />
+			</div>
+			<div t-attf-class="form-group #{error.get('x_strAuthorizationOperator') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="x_strAuthorizationOperator">Autorización operador</label>
+				<input type="text" name="x_strAuthorizationOperator" class="form-control" t-att-value="x_strAuthorizationOperator or partner.x_strAuthorizationOperator" />
+			</div>
+			<div class="clearfix"/>
+			<div t-attf-class="form-group #{error.get('x_nEmplyees') and 'has-error' or ''} col-lg-6">
+				<label class="control-label" for="x_nEmplyees">Número de empleados</label>
+				<input type="text" name="x_nEmplyees" class="form-control" t-att-value="x_nEmplyees or partner.x_nEmplyees" />
+			</div>
+			<!-- control , 2 delete -->
+			<div class="clearfix"/>
+			<h3> Pulse el botón [Confirmar] para actualizar sus datos...</h3>
+		</xpath>
+	</template>
+</odoo>
