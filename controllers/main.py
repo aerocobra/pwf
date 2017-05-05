@@ -24,7 +24,8 @@ class website_account(http.Controller):
         values = {
             'sales_rep': sales_rep,
             'company': request.website.company_id,
-            'user': request.env.user
+            'user': request.env.user,
+            'aut': partner.parent_id
         }
 
         return request.website.render("website_portal.account", values)
@@ -44,6 +45,7 @@ class website_account(http.Controller):
             if not error:
                 post.update({'zip': post.pop('zipcode', '')})
                 if partner.type == "contact":
+					#2 update
                     address_fields = {
                         'city': post.pop('city'),
                         'street': post.pop('street'),
@@ -57,7 +59,9 @@ class website_account(http.Controller):
 						'x_strAuthorizationOperator': post.pop('x_strAuthorizationOperator'),
 						'x_nEmplyees': post.pop('x_nEmplyees'),
 						'email': post.pop('company_email'),
-						'phone': post.pop('company_phone')
+						'phone': post.pop('company_phone'),
+						'website': post.pop('company_website'),
+						'name': post.pop('company_name')
                     }
                     partner.commercial_partner_id.sudo().write(address_fields)
                 partner.sudo().write(post)
@@ -68,8 +72,11 @@ class website_account(http.Controller):
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
 
+		#2 show
         values.update({
+			'company_vat': partner.commercial_partner_id.vat,
 			'company_name': partner.commercial_partner_id.name,
+			'company_website': partner.commercial_partner_id.website,
 			'company_email': partner.commercial_partner_id.email,
 			'company_phone': partner.commercial_partner_id.phone,
 			'x_strAuthorizationTransport': partner.commercial_partner_id.x_strAuthorizationTransport,
@@ -93,7 +100,7 @@ class website_account(http.Controller):
         mandatory_billing_fields = ["name", "phone", "email", "street", "city", "country_id"]
         optional_billing_fields = ["zipcode",
 									"state_id",
-									"vat",
+									"company_vat",
 									"street2",
 									"x_strAuthorizationTransport",
 									"x_nAuthorizationTransport",
@@ -102,7 +109,8 @@ class website_account(http.Controller):
 									"x_nEmplyees",
 									"company_name",
 									"company_email",
-									"company_phone"
+									"company_phone",
+									"company_website"
 									]
 
         # Validation
@@ -140,21 +148,26 @@ class website_account(http.Controller):
         if unknown:
             error['common'] = 'Unknown field'
             error_message.append("Unknown field '%s'" % ','.join(unknown))
-		
-        self.send_mail_note( 'igor.kartashov@setir.es', data.get('name'), data.get('company_name'))
-		
+
+        # if not error, send a mail 
+        if len ( error) == 0 and data.get("email"):
+            self.send_mail_note( data.get("email"), data.get('company_name'), data.get('name'))
+
+        if len ( error) == 0:
+            self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
+            self.send_mail_note( 'igor.kartashov@setir.es', data.get('company_name'), data.get('name'))
+
         return error, error_message
 
-    def send_mail_note ( self, mail_to, contacto, empresa):
+    def send_mail_note ( self, mail_to, empresa, contacto):
         mail_pool = request.env['mail.mail']
 
-        strBodyHTML = 'Actualzada la empresa:[' + empresa + '] por el contacto:[' + contacto +']'
-
         values={}
-        values.update({'subject': 'Datos asociado actualizados'})
+        values.update({'subject': 'WEB Portal ASTIC: datos actualizados y/o confirmados'})
         values.update({'email_to': mail_to})
-        values.update({'body_html': strBodyHTML })
-        values.update({'body': 'partner actualizado' })
+        values.update({'email_from': 'sistemas@astic.net'})
+        values.update({'body_html': '<p>Estimado %s</p> <p>ASTIC le agradece su colaboracion</p> <p>Los datos de su empresa [%s] han sido actualizados y confirmados</p> <p>Servivio automatico portal WEB Astic. No responda a este correo</p>' % (contacto, empresa)})
+        #values.update({'body': 'partner actualizado' })
 		#values.update({'res_id': 'obj.id' }) #[optional] here is the record id, where you want to post that email after sending
 		#values.update({'model': ''Object Name }) #[optional] here is the object(like 'project.project')  to whose record id you want to post that email after sending
         msg_id = mail_pool.create(values)

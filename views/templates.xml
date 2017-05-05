@@ -1,8 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+	<!-- datos cuenta -->
+    <template id="show_partner_account" inherit_id="website_portal.account">
+		<xpath expr="//div/div/div/div/div[@t-field='user.partner_id']" position="replace">
+			<div t-field="user.partner_id"
+				t-field-options="{&quot;widget&quot;: &quot;contact&quot;,
+				&quot;fields&quot;: [
+				&quot;email&quot;,
+				&quot;website&quot;,
+				&quot;phone&quot;,
+				&quot;address&quot;,
+				&quot;name&quot;]}"/>
+		</xpath>
+		<xpath expr="//div/div/div/div[1]" position="after">
+			<div>
+				<h3>Datos específicos a comprobar</h3>
+				<p>Para actualizar y/o confirmar los datos pulsar el botón [Cambiar]</p>
+                <p><strong>Empresa:</strong><span t-field="aut.name"/></p>
+				<p><strong>Nº Autorizaciópn de transporte :</strong><span t-field="aut.x_strAuthorizationTransport"/></p>
+				<p><strong>Nº copias :</strong><span t-field="aut.x_nAuthorizationTransport"/></p>
+				<p><strong>Nº licencia comunitaria :</strong><span t-field="aut.x_strLicenceEU"/></p>
+				<p><strong>Nº autorización operador :</strong><span t-field="aut.x_strAuthorizationOperator"/></p>
+				<p><strong>Nº empleados :</strong><span t-field="aut.x_nEmplyees"/></p>
+				<p><strong>Correo notificaciones ministerio :</strong><span t-field="aut.email"/></p>
+				<p><strong>Teléfono empresa :</strong><span t-field="aut.phone"/></p>
+			</div>
+		</xpath>
+	</template>
+
+	<!-- formulario WEB-->
     <template id="show_partner_form" inherit_id="website_portal.details">
+		<!-- header-->
         <xpath expr="//div/div/h1" position="replace">
 			<h1>ASTIC - Renovación del Comité Nacional de Transportes - 2017</h1>
+			<p>
+				Se está procediendo a la renovación de la representatividad de las asociaciones miembros
+				del comité nacional ante el ministerio de fomento.
+			</p>
+			<p>
+				Rogamos cumplimente este formulario antes del 20 de mayo.
+			</p>
+			<p>
+				Como sabe, la representatividad esta ligada al numero de empresas y al tamaño de las mismas.
+			</p>
+			<p>
+				De su empresa como afiliado conocemos los datos que tiene a continuación.
+			</p>
+			<p>
+				Tanto en el caso de que alguno de ellos haya variado respecto a la ultima revisión (2013),
+				le rogamos proceda a modificarlos directamente sobre el formulario
+			</p>
+			<p>
+				<strong>
+				Cuando este seguro de que los datos sean correctos (tanto si cambian como si se mantienen los anteriores),
+				pulse por favor al botón [CONFIRMAR] al final del formulario
+				</strong>
+			</p>
+			<p>
+				Muchas gracias por su colaboración
+			</p>
         </xpath>
 		<xpath expr="//div/div/form/div/div/div/div[1]" position="after">
 			<h2>Datos personales</h2>
@@ -19,21 +75,34 @@
 		<xpath expr="//div/div/form/div/div/div/div/input[@name='street']" position="replace">
 			<input type="text" name="company_name" class="form-control" t-att-value="company_name"/>
         </xpath>
-		
-		<!-- cambiar label para street2 -->
-		<xpath expr="//div/div/form/div/div/div/div/label[@for='street']" position="replace">
-			<label class="control-label" for="street2">Dirección 2</label>
-        </xpath>
+
+		<!-- vat por company_vat, VAT no editable -->
 		<xpath expr="//div/div/form/div/div/div/div/label[@for='vat']" position="replace">
-			<label class="control-label label-optional" for="vat">NIF (poner ES ántes, ej.: ESA12345678 )</label>
+			<label class="control-label label-optional" for="company_vat">NIF</label>
+        </xpath>
+		<xpath expr="//div/div/form/div/div/div/div/input[@name='vat']" position="replace">
+			<input type="text" name="company_vat" class="form-control" readonly="1" t-att-value="company_vat"/>
+        </xpath>
+
+		<!-- street2 por WEB-->
+		<xpath expr="//div/div/form/div/div/div/div/label[@for='street']" position="replace">
+			<label class="control-label" for="company_website">Sitio WEB de la empresa</label>
+        </xpath>
+		<xpath expr="//div/div/form/div/div/div/div/input[@name='street2']" position="replace">
+			<input type="text" name="company_website" class="form-control" t-att-value="company_website"/>
+        </xpath>
+
+		<!-- cambiar Estado/Provincia por Provincia-->
+		<xpath expr="//div/div/form/div/div/div/div/label[@for='state_id']" position="replace">
+			<label class="control-label label-optional" for="state_id">Provincia</label>
         </xpath>
 
 		<xpath expr="//div/div/form/div/div/div/div[5]" position="after">
 			<h2>Datos empresa</h2>
         </xpath>
 
-		<!-- añadir street antes de street2 -->
-		<xpath expr="//div/div/form/div/div/div/div[8]" position="after">
+		<!-- añadir despues de WEB -->
+		<xpath expr="//div/div/form/div/div/div/div[9]" position="after">
 			<div t-attf-class="form-group #{error.get('company_email') and 'has-error' or ''} col-lg-6">
 				<label class="control-label" for="company_email">Email (para las notificaciones del ministerio)</label>
 				<input type="text" name="company_email" class="form-control" t-att-value="company_email"/>
@@ -46,15 +115,16 @@
 			<div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
 				<label class="control-label" for="street">Dirección</label>
 				<input type="text" name="street" class="form-control" t-att-value="street or partner.street"/>
+				<input type="text" name="street2" class="form-control" t-att-value="street2 or partner.street2"/>
 			</div>
             <div class="clearfix"/>
         </xpath>
-		
-		<!-- ASTIC data-->
+
+		<!-- add new ASTIC data-->
 		<xpath expr="//div/div/form/div/div/div/input[@type='hidden']" position="after">
 			<div class="clearfix"/>
 			<div t-attf-class="form-group #{error.get('x_strAuthorizationTransport') and 'has-error' or ''} col-lg-6">
-				<label class="control-label" for="x_strAuthorizationTransport">Autorización de transporte</label>
+				<label class="control-label" for="x_strAuthorizationTransport">Nº Autorización de transporte</label>
 				<input type="text" name="x_strAuthorizationTransport" class="form-control" t-att-value="x_strAuthorizationTransport or partner.x_strAuthorizationTransport" />
 			</div>
 			<div t-attf-class="form-group #{error.get('x_nAuthorizationTransport') and 'has-error' or ''} col-lg-6">
@@ -63,11 +133,11 @@
 			</div>
 			<div class="clearfix"/>
 			<div t-attf-class="form-group #{error.get('x_strLicenceEU') and 'has-error' or ''} col-lg-6">
-				<label class="control-label" for="x_strLicenceEU">Licencia comunitaria</label>
+				<label class="control-label" for="x_strLicenceEU">Nº Licencia comunitaria</label>
 				<input type="text" name="x_strLicenceEU" class="form-control" t-att-value="x_strLicenceEU or partner.x_strLicenceEU" />
 			</div>
 			<div t-attf-class="form-group #{error.get('x_strAuthorizationOperator') and 'has-error' or ''} col-lg-6">
-				<label class="control-label" for="x_strAuthorizationOperator">Autorización operador</label>
+				<label class="control-label" for="x_strAuthorizationOperator">Nº Autorización operador</label>
 				<input type="text" name="x_strAuthorizationOperator" class="form-control" t-att-value="x_strAuthorizationOperator or partner.x_strAuthorizationOperator" />
 			</div>
 			<div class="clearfix"/>
@@ -77,7 +147,7 @@
 			</div>
 			<!-- control , 2 delete -->
 			<div class="clearfix"/>
-			<h3> Pulse el botón [Confirmar] para actualizar sus datos...</h3>
+			<p> <strong> Pulse el botón [Confirmar] para actualizar sus datos...</strong> </p>
 		</xpath>
 	</template>
 </odoo>
