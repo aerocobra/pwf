@@ -97,8 +97,9 @@ class website_account(http.Controller):
         error = dict()
         error_message = []
 
-        mandatory_billing_fields = ["name", "phone", "email", "street", "city", "country_id"]
+        mandatory_billing_fields = ["company_name", "company_email", "name", "email", "street", "city", "country_id"]
         optional_billing_fields = ["zipcode",
+									"phone",
 									"state_id",
 									"company_vat",
 									"street2",
@@ -107,8 +108,6 @@ class website_account(http.Controller):
 									"x_strLicenceEU",
 									"x_strAuthorizationOperator",
 									"x_nEmplyees",
-									"company_name",
-									"company_email",
 									"company_phone",
 									"company_website"
 									]
@@ -166,7 +165,7 @@ class website_account(http.Controller):
         values.update({'subject': 'WEB Portal ASTIC: datos actualizados y/o confirmados'})
         values.update({'email_to': mail_to})
         values.update({'email_from': 'sistemas@astic.net'})
-        values.update({'body_html': '<p>Estimado %s</p> <p>ASTIC le agradece su colaboracion</p> <p>Los datos de su empresa [%s] han sido actualizados y confirmados</p> <p>Servivio automatico portal WEB Astic. No responda a este correo</p>' % (contacto, empresa)})
+        values.update({'body_html': '<p>Estimado %s</p> <p>ASTIC le agradece su colaboracion</p> <p>Los datos de su empresa [%s] han sido actualizados y confirmados</p> <p>Servicio automatico portal WEB Astic. No responda a este correo</p>' % (contacto, empresa)})
         #values.update({'body': 'partner actualizado' })
 		#values.update({'res_id': 'obj.id' }) #[optional] here is the record id, where you want to post that email after sending
 		#values.update({'model': ''Object Name }) #[optional] here is the object(like 'project.project')  to whose record id you want to post that email after sending
