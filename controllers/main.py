@@ -65,6 +65,7 @@ class website_account(http.Controller):
                     }
                     partner.commercial_partner_id.sudo().write(address_fields)
                 partner.sudo().write(post)
+				#redirect dice donde hay que ir despues de pulsar el boton Confirmar
                 if redirect:
                     return request.redirect(redirect)
                 #return request.redirect('/my/home')

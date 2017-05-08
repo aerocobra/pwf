@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+	<!-- sustitur la opción MI CUENTA por Formulario... -->
     <template id="show_partner_menu_form_unlink" name="unLink to form" inherit_id="website_portal.my_account_link">
         <xpath expr="//li/a[@href='/my/home']" position="replace">
 			<li><a href="/my/account/" role="menuitem">Formulario Renovación del CNT - 2017</a></li>
@@ -44,6 +45,9 @@
 
 	<!-- formulario WEB-->
     <template id="show_partner_form" inherit_id="website_portal.details">
+        <xpath expr="//div/div/div/div/ol/li/a[@href='/my/home']" position="replace">
+			<a href="/">Inicio</a>
+		</xpath>
 		<!-- header-->
         <xpath expr="//div/div/h1" position="replace">
 			<h1>ASTIC - Renovación del Comité Nacional de Transportes - 2017</h1>
