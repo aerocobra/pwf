@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <template id="show_partner_form" name="linh form" inherit_id="website_portal.my_account_link">
+		<xpath expr="//li" position="after">
+			<li><a href="/my/account/" role="menuitem">Formulario</a></li>
+		</xpath>
+	</template>
 	<!-- datos cuenta -->
     <template id="show_partner_account" inherit_id="website_portal.account">
 		<xpath expr="//div/div/div/div/div[@t-field='user.partner_id']" position="replace">
@@ -12,7 +17,7 @@
 				&quot;address&quot;,
 				&quot;name&quot;]}"/>
 		</xpath>
-		<xpath expr="//div/div/div/div[1]" position="after">
+		<!-- xpath expr="//div/div/div/div[1]" position="after">
 			<div>
 				<h3>Datos específicos a comprobar</h3>
 				<p>Para actualizar y/o confirmar los datos pulsar el botón [Cambiar]</p>
@@ -25,6 +30,10 @@
 				<p><strong>Correo notificaciones ministerio :</strong><span t-field="aut.email"/></p>
 				<p><strong>Teléfono empresa :</strong><span t-field="aut.phone"/></p>
 			</div>
+		</xpath -->
+
+		<xpath expr="//div/div/div/div/h3[@class='page-header']" position="replace">
+            <h3 class="page-header">Sus Datos  <a href="/my/account" class="btn btn-primary btn-lg">Continuar</a></h3>
 		</xpath>
 	</template>
 
