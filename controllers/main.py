@@ -67,7 +67,8 @@ class website_account(http.Controller):
                 partner.sudo().write(post)
                 if redirect:
                     return request.redirect(redirect)
-                return request.redirect('/my/home')
+                #return request.redirect('/my/home')
+                return request.redirect('/')
 
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])

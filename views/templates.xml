@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <template id="show_partner_form" name="linh form" inherit_id="website_portal.my_account_link">
-		<xpath expr="//li" position="after">
-			<li><a href="/my/account/" role="menuitem">Formulario</a></li>
+    <template id="show_partner_menu_form_unlink" name="unLink to form" inherit_id="website_portal.my_account_link">
+        <xpath expr="//li/a[@href='/my/home']" position="replace">
+			<li><a href="/my/account/" role="menuitem">Formulario Renovación del CNT - 2017</a></li>
 		</xpath>
 	</template>
+    <!-- template id="show_partner_menu_form" name="Link to form" inherit_id="website.layout">
+        <xpath expr="//li[@id='o_logout']" position="before">
+			<li><a href="/my/account/" role="menuitem">Formulario Renovación del CNT - 2017</a></li>
+		</xpath>
+	</template -->
 	<!-- datos cuenta -->
     <template id="show_partner_account" inherit_id="website_portal.account">
 		<xpath expr="//div/div/div/div/div[@t-field='user.partner_id']" position="replace">
