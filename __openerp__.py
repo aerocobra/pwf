@@ -20,6 +20,7 @@
 				],
     "data": [
         "views/templates.xml",
+        "views/partnerConfirm.xml",
     ],
     "installable": True,
     "application": True,

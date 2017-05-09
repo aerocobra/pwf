@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #import email
 #import datetime
 from openerp import fields
@@ -8,8 +8,7 @@ from openerp import tools
 from openerp.tools.translate import _
 from openerp.addons.website.controllers.main import Website
 from openerp.addons.website_portal.controllers.main import website_account
-
-
+#from openerp.home.local-addons.ivk.wpf.models import partnerConfirm
 
 class website_account(http.Controller):
     @http.route(['/my', '/my/home'], type='http', auth="user", website=True)
@@ -155,8 +154,13 @@ class website_account(http.Controller):
             self.send_mail_note( data.get("email"), data.get('company_name'), data.get('name'))
 
         if len ( error) == 0:
-            self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
+            #self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
             self.send_mail_note( 'igor.kartashov@setir.es', data.get('company_name'), data.get('name'))
+            request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_bConfirm = True
+            request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_dateConfirm = fields.Date.today()
+            request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_strContacto = data.get('name')
+
+
 
         return error, error_message
 
