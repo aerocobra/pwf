@@ -156,9 +156,9 @@ class website_account(http.Controller):
         if len ( error) == 0:
             self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
             self.send_mail_note( 'igor.kartashov@setir.es', data.get('company_name'), data.get('name'))
-            request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_bConfirm = True
-            request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_dateConfirm = fields.Date.today()
-            request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_strContacto = data.get('name')
+            #request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_bConfirm = True
+            #request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_dateConfirm = fields.Date.today()
+            #request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_strContacto = data.get('name')
 
 
 
