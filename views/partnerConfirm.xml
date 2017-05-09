@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- For the form view and id field (whatever) -->
+		<record model="ir.ui.view" id="partnerConfirm_form">
+			<!-- Name field (whatever) -->
+			<field name="name">partnerConfirm_form</field>
+			<!-- Parent data -->
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<!-- new structure in the form view -->
+			<field name="arch" type="xml">
+				<!-- folders -->
+				<notebook position="inside">
+					<page string="Confirmacion datos CNT" attrs="{'invisible': [('is_company','!=', True)]}">
+						<!-- group col="6" colspan="2" -->
+						<group>
+                            <field name="x_bConfirm"/>
+                            <field name="x_dateConfirm"/>
+                            <field name="x_strContacto"/>
+						</group>
+					</page>
+				</notebook>
+			</field>
+		</record>
+    </data>
+</openerp>
