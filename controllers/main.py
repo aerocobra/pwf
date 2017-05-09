@@ -39,10 +39,16 @@ class website_account(http.Controller):
 
         if post:
             error, error_message = self.details_form_validate(post)
-            values.update({'error': error, 'error_message': error_message})
+            values.update({
+                        'error': error,
+                        'error_message': error_message
+                        })
+
             values.update(post)
             if not error:
-                post.update({'zip': post.pop('zipcode', '')})
+                post.update({
+                            'zip': post.pop('zipcode', '')
+                            })
                 if partner.type == "contact":
 					#2 update
                     address_fields = {
@@ -60,14 +66,19 @@ class website_account(http.Controller):
 						'email': post.pop('company_email'),
 						'phone': post.pop('company_phone'),
 						'website': post.pop('company_website'),
-						'name': post.pop('company_name')
+						'name': post.pop('company_name'),
+                        #escribir el sello de confirmación
+                        'x_bConfirm': True,
+                        'x_dateConfirm': fields.Date.today(),
+                        'x_strContacto': partner.name
                     }
                     partner.commercial_partner_id.sudo().write(address_fields)
                 partner.sudo().write(post)
 				#redirect dice donde hay que ir despues de pulsar el boton Confirmar
-                #if redirect:
-                #    return request.redirect(redirect)
+                if redirect:
+                    return request.redirect(redirect)
                 #return request.redirect('/my/home')
+                #redirigir al INICIO de la WEB
                 return request.redirect('/')
 
         countries = request.env['res.country'].sudo().search([])
@@ -154,13 +165,8 @@ class website_account(http.Controller):
             self.send_mail_note( data.get("email"), data.get('company_name'), data.get('name'))
 
         if len ( error) == 0:
-            self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
+            #self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
             self.send_mail_note( 'igor.kartashov@setir.es', data.get('company_name'), data.get('name'))
-            #request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_bConfirm = True
-            #request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_dateConfirm = fields.Date.today()
-            #request.env['res.partner'].search([('name', '=', data.get('company_name'))])[0].x_strContacto = data.get('name')
-
-
 
         return error, error_message
 
