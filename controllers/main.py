@@ -165,8 +165,7 @@ class website_account(http.Controller):
             self.send_mail_note( data.get("email"), data.get('company_name'), data.get('name'))
 
         if len ( error) == 0:
-            #self.send_mail_note( 'astic@astic.net', data.get('company_name'), data.get('name'))
-            self.send_mail_note( 'igor.kartashov@setir.es', data.get('company_name'), data.get('name'))
+            self.send_mail_note( 'igor.kartashov@setir.es, astic@astic.net', data.get('company_name'), data.get('name'))
 
         return error, error_message
 
@@ -179,8 +178,8 @@ class website_account(http.Controller):
         values.update({'email_from': 'sistemas@astic.net'})
         values.update({'body_html': '<p>Estimado %s:</p> <p>ASTIC le agradece su colaboraci&oacute;n.</p> <p>Los datos de su empresa [%s] han sido actualizados y confirmados.</p> <p>Servicio autom&aacute;tico portal WEB ASTIC. No responda a este correo.</p>' % (contacto, empresa)})
         #values.update({'body': 'partner actualizado' })
-		#values.update({'res_id': 'obj.id' }) #[optional] here is the record id, where you want to post that email after sending
-		#values.update({'model': ''Object Name }) #[optional] here is the object(like 'project.project')  to whose record id you want to post that email after sending
+        #values.update({'res_id': track_id}) #[optional] 'obj.id' here is the record id, where you want to post that email after sending
+        #values.update({'model': 'res.partner'}) #[optional] here is the object(like 'project.project')  to whose record id you want to post that email after sending
         msg_id = mail_pool.create(values)
 		# And then call send function of the mail.mail,
         if msg_id:
